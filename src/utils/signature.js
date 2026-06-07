@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function generateSignature(data, secretKey) {
     return crypto
@@ -9,8 +9,9 @@ function generateSignature(data, secretKey) {
 
 function verifySignature(body, timestamp, nonce, signature, secretKey) {
     const data = `${timestamp}${nonce}${JSON.stringify(body)}`;
-    const expected = generateSignature(data, secretKey);
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+    const expectedSignature = generateSignature(data, secretKey);
+    
+    return signature === expectedSignature;
 }
 
 module.exports = { generateSignature, verifySignature };

@@ -1,18 +1,19 @@
 require("dotenv").config();
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
+console.log("REDIS_URL:", process.env.REDIS_URL);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const Merchant = require("./models/Merchant");
 
 const app = express();
-app.use(express.json());
+app.use(express.json());           // ← ПАРСИНГ JSON
 
-// подключение к MongoDB
 mongoose.connect(process.env.MONGODB_URI)
     .then(async () => {
         console.log("MongoDB connected");
         
-        // создание тестового продавца
         const existing = await Merchant.findOne({ merchantId: "test_merchant" });
         if (!existing) {
             await Merchant.create({

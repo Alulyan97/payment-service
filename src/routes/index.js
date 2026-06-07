@@ -3,8 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const Bill = require("../models/Invoice");
 const Vendor = require("../models/Merchant");
 const getCommission = require("../utils/fee");
-const webhookGuard = require("../middleware/webhookSecurity");
-
+const webhook = require("../middleware/webhook");
 const router = express.Router();
 
 // POST /invoice
@@ -53,7 +52,7 @@ router.post("/invoice", async (req, res) => {
 router.post("/webhook", webhook, async (req, res) => {
     try {
         const { status } = req.body;
-        const bill = req.bill;
+        const bill = req.invoice;
         
         if (status === "paid") {
             const result = await Bill.findOneAndUpdate(

@@ -1,9 +1,9 @@
-function calculate(amount, feePercent) {
+function calculateFee(amount, feePercent) {
     const fee = amount * (feePercent / 100);
-    const rounded = Math.round(fee * 100) / 100;
-    const totalSum = Math.round((amount - rounded) * 100) / 100;
+    const roundedFee = Math.round(fee * 100) / 100;
+    const amountToReceive = Math.round((amount - roundedFee) * 100) / 100;
     
-    return { fee: roundedFee, totalSum };
+    return { fee: roundedFee, amountToReceive };
 }
 
-module.exports = calculate;
+module.exports = calculateFee;
